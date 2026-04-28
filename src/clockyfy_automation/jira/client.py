@@ -69,22 +69,48 @@ def search_candidate_issues(
     fields: list[str] | None = None,
     page_size: int = _DEFAULT_PAGE_SIZE,
 ) -> Iterator[dict[str, Any]]:
+    """Yield candidate issues matching the JQL.
+
+    Uses the JIRA Cloud `/rest/api/3/search/jql` endpoint (the legacy
+    `/rest/api/3/search` was retired and now returns 410 Gone). Pagination is
+    token-based: when `nextPageToken` is returned and `isLast` is false, the
+    next request includes the token. Issues yielded by this function do NOT
+    include changelog data — call `fetch_issue` per key for that.
+    """
     fields_csv = ",".join(fields) if fields else "summary"
-    start = 0
+    next_token: str | None = None
     while True:
-        params = {
+        params: dict[str, Any] = {
             "jql": jql,
             "fields": fields_csv,
-            "expand": "changelog",
-            "startAt": start,
             "maxResults": page_size,
         }
-        response = _request_with_retry(client, "GET", "/rest/api/3/search", params=params)
+        if next_token:
+            params["nextPageToken"] = next_token
+        response = _request_with_retry(
+            client, "GET", "/rest/api/3/search/jql", params=params
+        )
         response.raise_for_status()
         data = response.json()
         issues = data.get("issues", [])
         yield from issues
-        total = data.get("total", 0)
-        start += len(issues)
-        if not issues or start >= total:
+        if data.get("isLast", True) or not issues:
             return
+        next_token = data.get("nextPageToken")
+        if not next_token:
+            return
+
+
+def fetch_issue(
+    client: httpx.Client,
+    key: str,
+    fields: list[str] | None = None,
+) -> dict[str, Any]:
+    """Fetch a single issue with its changelog expanded."""
+    fields_csv = ",".join(fields) if fields else "summary,created,assignee,status"
+    params = {"fields": fields_csv, "expand": "changelog"}
+    response = _request_with_retry(
+        client, "GET", f"/rest/api/3/issue/{key}", params=params
+    )
+    response.raise_for_status()
+    return response.json()

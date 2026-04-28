@@ -137,4 +137,9 @@ def _main(
 
 
 def app() -> None:
+    # Windows consoles default to cp1252 which can't encode em-dash or arrows.
+    # Reconfigure stdout/stderr to UTF-8 so summaries and descriptions print cleanly.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     typer.run(_main)

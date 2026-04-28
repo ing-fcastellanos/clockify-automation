@@ -10,6 +10,7 @@ import httpx
 from clockyfy_automation.config import Settings
 from clockyfy_automation.jira.client import (
     _request_with_retry,
+    fetch_issue,
     make_jira_client,
     search_candidate_issues,
 )
@@ -56,9 +57,10 @@ def fetch_active_tickets_by_day(
         jql = _build_jql(from_date, to_date)
         per_day: dict[date, list[Ticket]] = defaultdict(list)
         seen_per_day: dict[date, set[str]] = defaultdict(set)
-        for issue in search_candidate_issues(client, jql, fields=["summary"]):
-            ticket = _ticket_from_issue(issue)
-            intervals = reconstruct_intervals(issue, account_id, now)
+        for issue_stub in search_candidate_issues(client, jql, fields=["summary"]):
+            full_issue = fetch_issue(client, issue_stub["key"])
+            ticket = _ticket_from_issue(full_issue)
+            intervals = reconstruct_intervals(full_issue, account_id, now)
             active_days = intervals_to_active_days(intervals, settings.timezone)
             for d in active_days:
                 if d < from_date or d > to_date:
