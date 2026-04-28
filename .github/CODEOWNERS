@@ -1,0 +1,7 @@
+# Code owners for jira-clockify-sync.
+#
+# Every PR that touches the repo requires a review from the listed owner(s)
+# when branch protection is configured to require reviews from CODEOWNERS.
+# See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* @ing-fcastellanos
