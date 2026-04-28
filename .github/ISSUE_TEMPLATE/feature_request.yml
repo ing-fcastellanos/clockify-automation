@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest a new flag, behavior, or integration.
+title: "[Feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem this would solve
+      description: What is the workflow today, and where does it break or feel wrong?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: What should the tool do? If you have a flag in mind, name it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you've tried, or other tools that handle this well.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      description: Roughly how big do you think the change is?
+      options:
+        - New CLI flag
+        - New behavior on existing flag
+        - New integration (other tracker, other time-tracking tool)
+        - Refactor or internal cleanup
+        - Documentation only
+        - Not sure
+    validations:
+      required: true

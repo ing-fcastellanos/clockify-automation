@@ -4,6 +4,7 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/jira-clockify-sync.svg)](https://pypi.org/project/jira-clockify-sync/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/ing-fcastellanos/clockify-automation/actions/workflows/ci.yml/badge.svg)](https://github.com/ing-fcastellanos/clockify-automation/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/ing-fcastellanos/clockify-automation/branch/main/graph/badge.svg)](https://codecov.io/gh/ing-fcastellanos/clockify-automation)
 
 Sync your JIRA "In Progress" activity into Clockify time entries with one
 command.

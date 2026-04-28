@@ -1,0 +1,74 @@
+name: Bug report
+description: Report something that isn't working as documented.
+title: "[Bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Please redact any tokens,
+        emails, or workspace IDs before pasting logs.
+
+  - type: input
+    id: version
+    attributes:
+      label: jira-clockify-sync version
+      description: Run `pip show jira-clockify-sync` and paste the version line.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      description: Run `python --version`.
+      placeholder: "3.12.x"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - GitHub Actions runner
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Command you ran
+      description: The exact `clockify-sync ...` invocation, with any flags.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+      description: Include the relevant output. Re-run with `-v` for DEBUG-level logs and paste those if useful.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: JIRA Cloud vs. self-hosted, custom workflows, network setup, etc.
+    validations:
+      required: false
