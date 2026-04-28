@@ -1,0 +1,19 @@
+# Days excluded from the working-day calendar.
+# Format: ISO date (YYYY-MM-DD), one per line, in chronological order.
+# Comments after a date are ignored by the parser; keep them for context.
+#
+# Mexico federal holidays (Días de descanso obligatorio per LFT Art. 74).
+# When a holiday falls on a weekday it is observed; weekend dates do not need
+# to be listed here because Saturdays and Sundays are already non-working.
+# Update this file each year before the new year starts.
+
+# 2026
+- 2026-01-01    # Año Nuevo
+- 2026-02-02    # Día de la Constitución (lunes, primer lunes de febrero)
+- 2026-03-16    # Natalicio de Benito Juárez (lunes, tercer lunes de marzo)
+- 2026-05-01    # Día del Trabajo
+- 2026-09-16    # Día de la Independencia
+- 2026-11-16    # Día de la Revolución (lunes, tercer lunes de noviembre)
+- 2026-12-25    # Navidad
+
+# Add 2027 entries below before December 2026.

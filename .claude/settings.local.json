@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(openspec new *)",
+      "Bash(openspec status *)",
+      "Bash(openspec instructions *)",
+      "Bash(uv --version)",
+      "PowerShell(uv *)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m pip install --upgrade pip 2>&1 | Select-Object -Last 5)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m pip install -e \".[dev]\" 2>&1 | Select-Object -Last 30)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m pytest 2>&1 | Select-Object -Last 60)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m pip install tzdata 2>&1 | Select-Object -Last 5)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m pytest 2>&1 | Select-Object -Last 80)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m pytest 2>&1 | Select-Object -Last 20)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m pytest --cov=clockyfy_automation.allocator --cov=clockyfy_automation.jira.timeline --cov-report=term-missing 2>&1 | Select-Object -Last 30)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m ruff check . 2>&1 | Select-Object -Last 30)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m ruff check . --fix 2>&1 | Select-Object -Last 30)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m ruff check . 2>&1)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe -m ruff check . 2>&1; .\\\\.venv\\\\Scripts\\\\python.exe -m pytest 2>&1 | Select-Object -Last 15)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\clockyfy-sync.exe --help 2>&1)"
+    ]
+  }
+}
