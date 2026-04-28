@@ -1,4 +1,4 @@
-from clockyfy_automation.clockify.sink import (
+from clockify_automation.clockify.sink import (
     ConflictError,
     Mode,
     SinkReport,

@@ -4,11 +4,11 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
-from clockyfy_automation.allocator import AllocationResult, allocate
-from clockyfy_automation.allocator import Ticket as AllocTicket
-from clockyfy_automation.clockify import Mode, SinkReport, apply_blocks
-from clockyfy_automation.config import Settings, load_holidays
-from clockyfy_automation.jira import fetch_active_tickets_by_day
+from clockify_automation.allocator import AllocationResult, allocate
+from clockify_automation.allocator import Ticket as AllocTicket
+from clockify_automation.clockify import Mode, SinkReport, apply_blocks
+from clockify_automation.config import Settings, load_holidays
+from clockify_automation.jira import fetch_active_tickets_by_day
 
 
 @dataclass(frozen=True)

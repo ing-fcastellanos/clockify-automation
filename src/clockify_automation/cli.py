@@ -8,9 +8,9 @@ from typing import Annotated
 
 import typer
 
-from clockyfy_automation.clockify import ConflictError, Mode
-from clockyfy_automation.config import load_settings
-from clockyfy_automation.sync import RunReport, run
+from clockify_automation.clockify import ConflictError, Mode
+from clockify_automation.config import load_settings
+from clockify_automation.sync import RunReport, run
 
 
 def _setup_logging(verbose: bool) -> None:

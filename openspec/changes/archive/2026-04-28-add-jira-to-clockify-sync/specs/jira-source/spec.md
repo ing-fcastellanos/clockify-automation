@@ -6,13 +6,13 @@ The system SHALL authenticate against the JIRA Cloud REST API using HTTP Basic a
 
 #### Scenario: Successful authentication
 
-- **WHEN** the user runs `clockyfy-sync` with valid `JIRA_EMAIL`, `JIRA_API_TOKEN`, and `JIRA_BASE_URL` env vars
+- **WHEN** the user runs `clockify-sync` with valid `JIRA_EMAIL`, `JIRA_API_TOKEN`, and `JIRA_BASE_URL` env vars
 - **THEN** the system performs JIRA requests with `Authorization: Basic <base64(email:token)>`
 - **AND** the API token does not appear in any log output or error message
 
 #### Scenario: Missing credentials
 
-- **WHEN** the user runs `clockyfy-sync` and `JIRA_API_TOKEN` is unset or empty
+- **WHEN** the user runs `clockify-sync` and `JIRA_API_TOKEN` is unset or empty
 - **THEN** the system aborts with a clear error message naming the missing variable
 - **AND** no HTTP request is made
 

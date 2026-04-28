@@ -4,16 +4,16 @@ from dataclasses import dataclass, field
 from datetime import UTC, date, datetime
 from typing import Any, Literal
 
-from clockyfy_automation.allocator import Block
-from clockyfy_automation.clockify.client import (
+from clockify_automation.allocator import Block
+from clockify_automation.clockify.client import (
     create_time_entry,
     delete_time_entry,
     list_user_entries,
     make_clockify_client,
     resolve_user_id,
 )
-from clockyfy_automation.clockify.dedupe import partition_entries
-from clockyfy_automation.config import Settings
+from clockify_automation.clockify.dedupe import partition_entries
+from clockify_automation.config import Settings
 
 Mode = Literal["error", "force", "skip", "dry_run"]
 

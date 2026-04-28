@@ -6,7 +6,7 @@ The system SHALL authenticate against the Clockify v1 REST API using the `X-Api-
 
 #### Scenario: Successful authentication
 
-- **WHEN** the user runs `clockyfy-sync` with valid Clockify env vars
+- **WHEN** the user runs `clockify-sync` with valid Clockify env vars
 - **THEN** every Clockify request includes `X-Api-Key: <key>`
 - **AND** the API key never appears in log output
 

@@ -1,11 +1,11 @@
 ## 1. Project bootstrap
 
 - [x] 1.1 Initialize `pyproject.toml` with `uv init`, target Python 3.11+, declare deps: `httpx`, `typer`, `pydantic`, `pydantic-settings`, `python-dotenv`, `pyyaml`. Dev deps: `pytest`, `pytest-cov`, `freezegun`, `respx` (httpx mocking), `ruff`.
-- [x] 1.2 Create the source layout `src/clockyfy_automation/{__init__,__main__,cli,config,sync,allocator}.py` plus `jira/` and `clockify/` packages, each with `__init__.py`.
+- [x] 1.2 Create the source layout `src/clockify_automation/{__init__,__main__,cli,config,sync,allocator}.py` plus `jira/` and `clockify/` packages, each with `__init__.py`.
 - [x] 1.3 Create `.env.example` listing every env var: `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, `CLOCKIFY_API_KEY`, `CLOCKIFY_WORKSPACE_ID`, `CLOCKIFY_PROJECT_ID`, `CLOCKIFY_TAG_ID`, `CLOCKIFY_USER_ID` (optional), `TIMEZONE` (default `America/Mexico_City`).
 - [x] 1.4 Create `.gitignore` ignoring `.env`, `.venv/`, `__pycache__/`, `*.pyc`, `.pytest_cache/`, `dist/`, `*.egg-info/`.
 - [x] 1.5 Create `holidays.yaml` at repo root, committed, populated with Mexico 2026 federal holidays as illustrative examples and explanatory comments.
-- [x] 1.6 Create `README.md` with: prerequisites, install (`uv sync`), env setup, basic usage (`uv run clockyfy-sync --from ... --to ...`), and "moving to GitHub Actions" placeholder section.
+- [x] 1.6 Create `README.md` with: prerequisites, install (`uv sync`), env setup, basic usage (`uv run clockify-sync --from ... --to ...`), and "moving to GitHub Actions" placeholder section.
 - [x] 1.7 Configure `ruff` (lint + format) in `pyproject.toml` with sensible defaults; add `pytest` config pointing to `tests/`.
 
 ## 2. Configuration layer
@@ -49,7 +49,7 @@
 
 - [x] 6.1 In `sync.py`, implement `run(settings, from_date, to_date, mode) -> RunReport` that: fetches day-to-tickets from JIRA, calls allocator, calls Clockify sink, aggregates a report (entries created, days skipped, tickets skipped per day, deleted entries when force).
 - [x] 6.2 In `cli.py`, define a `typer` app with one command accepting `--from` and `--to` (ISO dates, required), mutually exclusive `--force` / `--skip`, plus `--dry-run`. Include `--verbose` flag toggling DEBUG logs.
-- [x] 6.3 Configure `__main__.py` to invoke the typer app; add a `[project.scripts]` entry in `pyproject.toml` named `clockyfy-sync`.
+- [x] 6.3 Configure `__main__.py` to invoke the typer app; add a `[project.scripts]` entry in `pyproject.toml` named `clockify-sync`.
 - [x] 6.4 Implement structured logging (Python `logging`) with default INFO; verbose flag promotes to DEBUG without ever emitting tokens or keys.
 - [x] 6.5 Print a final human-readable summary at end of run: blocks created, days with skipped tickets (with names), empty days, total hours.
 

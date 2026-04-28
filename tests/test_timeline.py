@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
-from clockyfy_automation.jira.timeline import (
+from clockify_automation.jira.timeline import (
     Interval,
     intervals_to_active_days,
     reconstruct_intervals,

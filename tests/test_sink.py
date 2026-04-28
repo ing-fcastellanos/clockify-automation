@@ -8,8 +8,8 @@ import httpx
 import pytest
 import respx
 
-from clockyfy_automation.allocator import Block
-from clockyfy_automation.clockify.sink import (
+from clockify_automation.allocator import Block
+from clockify_automation.clockify.sink import (
     ConflictError,
     apply_blocks,
     block_to_payload,

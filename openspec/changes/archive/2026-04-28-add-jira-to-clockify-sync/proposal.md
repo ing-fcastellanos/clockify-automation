@@ -4,7 +4,7 @@ Hoy registrar manualmente las horas trabajadas en Clockify duplica el esfuerzo d
 
 ## What Changes
 
-- Nueva CLI en Python `clockyfy-sync` que recibe un rango de fechas y crea time entries en Clockify a partir de actividad detectada en JIRA.
+- Nueva CLI en Python `clockify-sync` que recibe un rango de fechas y crea time entries en Clockify a partir de actividad detectada en JIRA.
 - Detección de tickets "trabajados" mediante JQL (`assignee was currentUser() AND status was "In Progress" DURING (...)`) y reconstrucción de intervalos vía changelog.
 - Reparto determinístico de las 8 horas laborales (9:00–17:00, L–V, zona `America/Mexico_City`) entre los tickets activos de cada día, en bloques de horas enteras y orden alfabético.
 - Archivo `holidays.yaml` committeado para excluir festivos del rango.
@@ -23,7 +23,7 @@ Hoy registrar manualmente las horas trabajadas en Clockify duplica el esfuerzo d
 
 ## Impact
 
-- **Código nuevo**: paquete Python `src/clockyfy_automation/` con módulos para JIRA, Clockify, allocator y CLI; tests unitarios sobre allocator y reconstrucción de intervalos.
+- **Código nuevo**: paquete Python `src/clockify_automation/` con módulos para JIRA, Clockify, allocator y CLI; tests unitarios sobre allocator y reconstrucción de intervalos.
 - **Configuración nueva**: `pyproject.toml` (uv), `.env.example`, `.gitignore`, `holidays.yaml`, `README.md`.
 - **APIs externas**: JIRA Cloud REST v3 (`/rest/api/3/search`, `/rest/api/3/issue/{key}?expand=changelog`) con autenticación Basic; Clockify v1 (`/api/v1/workspaces/.../time-entries`) con header `X-Api-Key`.
 - **Credenciales**: API token de JIRA, API key de Clockify, IDs de workspace/project/tag — gestionados localmente vía `.env` (gitignored) y luego como secrets/vars de GitHub Actions.

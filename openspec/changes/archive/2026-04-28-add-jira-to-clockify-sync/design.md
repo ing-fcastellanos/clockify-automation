@@ -106,7 +106,7 @@ Un entry en Clockify se considera "creado por la automatización" si y solo si:
 Comportamiento por defecto: si hay matches en el rango, abortar con error informativo. `--force` los borra y recrea; `--skip` salta días donde haya matches; `--dry-run` no toca nada. Entries que no matchean los tres criterios nunca se tocan.
 
 **Alternativas consideradas:**
-- *Tag dedicado "auto-clockyfy"*: el usuario tiene un único tag, no quiere agregar otro.
+- *Tag dedicado "auto-clockify"*: el usuario tiene un único tag, no quiere agregar otro.
 - *Comparar entry-por-entry y solo crear los que faltan*: complejo y frágil ante cambios mínimos en descripción.
 
 ### D8. Stack Python con `uv`, CLI con `typer`, request HTTP con `httpx`

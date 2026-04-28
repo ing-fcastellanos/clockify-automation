@@ -3,7 +3,7 @@ from __future__ import annotations
 import httpx
 import respx
 
-from clockyfy_automation.jira.client import (
+from clockify_automation.jira.client import (
     _request_with_retry,
     fetch_issue,
     make_jira_client,

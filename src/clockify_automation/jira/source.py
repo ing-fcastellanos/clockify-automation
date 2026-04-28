@@ -7,14 +7,14 @@ from typing import Any
 
 import httpx
 
-from clockyfy_automation.config import Settings
-from clockyfy_automation.jira.client import (
+from clockify_automation.config import Settings
+from clockify_automation.jira.client import (
     _request_with_retry,
     fetch_issue,
     make_jira_client,
     search_candidate_issues,
 )
-from clockyfy_automation.jira.timeline import (
+from clockify_automation.jira.timeline import (
     intervals_to_active_days,
     reconstruct_intervals,
 )

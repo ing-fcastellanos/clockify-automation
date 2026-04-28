@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from clockyfy_automation.allocator import (
+from clockify_automation.allocator import (
     AllocationResult,
     Ticket,
     _allocations_for_n,

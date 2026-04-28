@@ -1,5 +1,5 @@
 [project]
-name = "clockyfy-automation"
+name = "clockify-automation"
 version = "0.1.0"
 description = "Sync JIRA In-Progress activity into Clockify time entries."
 readme = "README.md"
@@ -27,14 +27,14 @@ dev = [
 ]
 
 [project.scripts]
-clockyfy-sync = "clockyfy_automation.cli:app"
+clockify-sync = "clockify_automation.cli:app"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/clockyfy_automation"]
+packages = ["src/clockify_automation"]
 
 [tool.ruff]
 line-length = 100

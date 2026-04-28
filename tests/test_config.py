@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from clockyfy_automation.config import Settings, load_holidays
+from clockify_automation.config import Settings, load_holidays
 
 _REQUIRED_ENV = {
     "JIRA_BASE_URL": "https://example.atlassian.net",

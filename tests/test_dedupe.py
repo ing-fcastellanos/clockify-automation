@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 
-from clockyfy_automation.clockify.dedupe import (
+from clockify_automation.clockify.dedupe import (
     AUTOMATION_DESCRIPTION_RE,
     is_automation_owned,
     partition_entries,

@@ -1,4 +1,4 @@
-# clockyfy-automation
+# clockify-automation
 
 Sync your JIRA "In Progress" activity into Clockify time entries with one
 command.
@@ -70,7 +70,7 @@ Update before December each year for the upcoming year.
 ## Usage
 
 ```
-clockyfy-sync --from 2026-04-20 --to 2026-04-26
+clockify-sync --from 2026-04-20 --to 2026-04-26
 ```
 
 Flags:
@@ -188,7 +188,7 @@ range:
 
 ```yaml
 # .github/workflows/sync.yml — example, NOT yet added by this milestone
-name: Clockyfy sync
+name: Clockify sync
 on:
   workflow_dispatch:
     inputs:
@@ -224,7 +224,7 @@ jobs:
             skip)    flag="--skip" ;;
             dry-run) flag="--dry-run" ;;
           esac
-          clockyfy-sync --from "${{ inputs.from }}" --to "${{ inputs.to }}" $flag
+          clockify-sync --from "${{ inputs.from }}" --to "${{ inputs.to }}" $flag
 ```
 
 The workflow file itself is intentionally not part of the initial milestone —
