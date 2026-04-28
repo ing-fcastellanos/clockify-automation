@@ -1,4 +1,9 @@
-# clockify-automation
+# jira-clockify-sync
+
+[![PyPI version](https://img.shields.io/pypi/v/jira-clockify-sync.svg)](https://pypi.org/project/jira-clockify-sync/)
+[![Python versions](https://img.shields.io/pypi/pyversions/jira-clockify-sync.svg)](https://pypi.org/project/jira-clockify-sync/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/ing-fcastellanos/clockify-automation/actions/workflows/ci.yml/badge.svg)](https://github.com/ing-fcastellanos/clockify-automation/actions/workflows/ci.yml)
 
 Sync your JIRA "In Progress" activity into Clockify time entries with one
 command.
@@ -21,20 +26,16 @@ you've been working, without manual data entry every day.
 
 ## Install
 
-With [uv](https://docs.astral.sh/uv/):
+From PyPI:
 
 ```
-uv sync
+pip install jira-clockify-sync
 ```
 
-Without uv:
+The package installs the `clockify-sync` command on your `PATH`.
 
-```
-python -m venv .venv
-.\.venv\Scripts\activate    # Windows PowerShell
-# or:  source .venv/bin/activate    # macOS/Linux
-pip install -e ".[dev]"
-```
+For local development (editable install with dev dependencies), see
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Configure
 
@@ -73,13 +74,20 @@ Update before December each year for the upcoming year.
 clockify-sync --from 2026-04-20 --to 2026-04-26
 ```
 
-Flags:
+Flags (each has a short alias):
 
-- `--dry-run` — print the plan, do not write anything to Clockify.
-- `--force` — replace any prior automation-owned entries in the range.
-- `--skip` — skip days that already have automation-owned entries.
-- `--verbose` — DEBUG-level logging.
-- `--holidays PATH` — alternate holidays file (default: `holidays.yaml`).
+- `--from`, `-F` — start date, ISO format (required).
+- `--to`, `-t` — end date, ISO format (required).
+- `--dry-run`, `-d` — print the plan, do not write anything to Clockify.
+- `--force`, `-f` — replace any prior automation-owned entries in the range.
+- `--skip`, `-s` — skip days that already have automation-owned entries.
+- `--yes`, `-y` — skip the confirmation prompt before writing.
+- `--verbose`, `-v` — DEBUG-level logging.
+- `--holidays`, `-H PATH` — alternate holidays file (default: `holidays.yaml`).
+
+Before writing anything, the CLI prints the plan and asks for confirmation.
+Use `-y` to skip the prompt (e.g. in CI). `--dry-run` never prompts since it
+never writes.
 
 ## Idempotency
 
@@ -230,16 +238,18 @@ jobs:
 The workflow file itself is intentionally not part of the initial milestone —
 add it when you're ready to migrate.
 
-## Development
+## Contributing
 
-Run the test suite and lints:
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, the quality
+checks the project enforces, and the release process.
 
-```
-pytest                    # all tests, ~2s
-pytest --cov              # with coverage
-ruff check .              # lint
-ruff format .             # auto-format
-```
-
-Hot path coverage targets: `allocator.py` and `jira/timeline.py` should stay
+Hot-path coverage targets: `allocator.py` and `jira/timeline.py` should stay
 above 90%. Adding new branches without tests is a smell.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for the release history.
+
+## License
+
+[MIT](LICENSE) © 2026 Francisco Castellanos

@@ -3,8 +3,8 @@ from __future__ import annotations
 import logging
 import random
 import time
-from collections.abc import Iterator
-from typing import Any
+from collections.abc import Callable, Iterator
+from typing import Any, cast
 
 import httpx
 
@@ -37,7 +37,7 @@ def _request_with_retry(
     *,
     params: dict[str, Any] | None = None,
     json: Any = None,
-    sleep: callable = time.sleep,  # type: ignore[valid-type]
+    sleep: Callable[[float], None] = time.sleep,
 ) -> httpx.Response:
     backoff = _BASE_BACKOFF_SECONDS
     last_response: httpx.Response | None = None
@@ -71,7 +71,7 @@ def _request_with_retry(
 def resolve_user_id(client: httpx.Client) -> str:
     response = _request_with_retry(client, "GET", "/api/v1/user")
     response.raise_for_status()
-    return response.json()["id"]
+    return cast(str, response.json()["id"])
 
 
 def list_user_entries(
@@ -113,7 +113,7 @@ def create_time_entry(
         client, "POST", f"/api/v1/workspaces/{workspace_id}/time-entries", json=payload
     )
     response.raise_for_status()
-    return response.json()
+    return cast(dict[str, Any], response.json())
 
 
 def delete_time_entry(client: httpx.Client, workspace_id: str, entry_id: str) -> None:

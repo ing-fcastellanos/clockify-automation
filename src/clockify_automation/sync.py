@@ -12,6 +12,14 @@ from clockify_automation.jira import fetch_active_tickets_by_day
 
 
 @dataclass(frozen=True)
+class Plan:
+    allocation: AllocationResult
+    mode: Mode
+    from_date: date
+    to_date: date
+
+
+@dataclass(frozen=True)
 class RunReport:
     allocation: AllocationResult
     sink: SinkReport
@@ -20,13 +28,13 @@ class RunReport:
     to_date: date
 
 
-def run(
+def plan(
     settings: Settings,
     from_date: date,
     to_date: date,
     mode: Mode,
     holidays_path: Path | str = "holidays.yaml",
-) -> RunReport:
+) -> Plan:
     holidays = load_holidays(holidays_path)
 
     jira_day_to_tickets = fetch_active_tickets_by_day(settings, from_date, to_date)
@@ -43,18 +51,32 @@ def run(
         settings.timezone,
     )
 
+    return Plan(allocation=allocation, mode=mode, from_date=from_date, to_date=to_date)
+
+
+def apply(settings: Settings, plan: Plan) -> RunReport:
     sink_report = apply_blocks(
         settings,
-        allocation.blocks,
-        mode,
-        from_date=from_date,
-        to_date=to_date,
+        plan.allocation.blocks,
+        plan.mode,
+        from_date=plan.from_date,
+        to_date=plan.to_date,
     )
 
     return RunReport(
-        allocation=allocation,
+        allocation=plan.allocation,
         sink=sink_report,
-        mode=mode,
-        from_date=from_date,
-        to_date=to_date,
+        mode=plan.mode,
+        from_date=plan.from_date,
+        to_date=plan.to_date,
     )
+
+
+def run(
+    settings: Settings,
+    from_date: date,
+    to_date: date,
+    mode: Mode,
+    holidays_path: Path | str = "holidays.yaml",
+) -> RunReport:
+    return apply(settings, plan(settings, from_date, to_date, mode, holidays_path))

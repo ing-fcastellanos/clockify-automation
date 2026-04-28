@@ -27,7 +27,8 @@ def _initial_value(
     for h in histories:
         for item in h.get("items", []):
             if item.get("field") == field:
-                return item.get(value_attr)
+                value = item.get(value_attr)
+                return value if value is None else str(value)
     return current_value
 
 

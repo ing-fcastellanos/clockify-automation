@@ -88,8 +88,7 @@ def apply_blocks(
     end_iso = to_utc_iso8601_z(range_end)
 
     planned_payloads = [
-        block_to_payload(b, settings.clockify_project_id, settings.clockify_tag_id)
-        for b in blocks
+        block_to_payload(b, settings.clockify_project_id, settings.clockify_tag_id) for b in blocks
     ]
 
     with make_clockify_client(settings.clockify_api_key) as client:
@@ -151,9 +150,7 @@ def apply_blocks(
         raise ValueError(f"unknown mode: {mode!r}")
 
 
-def _create_all(
-    client: Any, settings: Settings, payloads: list[dict[str, Any]]
-) -> SinkReport:
+def _create_all(client: Any, settings: Settings, payloads: list[dict[str, Any]]) -> SinkReport:
     created: list[dict[str, Any]] = []
     for payload in payloads:
         result = create_time_entry(client, settings.clockify_workspace_id, payload)

@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Any
+from typing import Any, cast
 
 import httpx
 
@@ -37,7 +37,7 @@ def _resolve_account_id(client: httpx.Client) -> str:
     response = _request_with_retry(client, "GET", "/rest/api/3/myself")
     response.raise_for_status()
     data = response.json()
-    return data["accountId"]
+    return cast(str, data["accountId"])
 
 
 def fetch_active_tickets_by_day(

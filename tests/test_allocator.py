@@ -124,9 +124,7 @@ def test_allocate_day_n3_gives_3_3_2() -> None:
 
 def test_allocate_day_n7_gives_first_2h_then_ones() -> None:
     day = date(2026, 4, 21)
-    blocks, skipped = allocate_day(
-        _ticks("A-1", "B-1", "C-1", "D-1", "E-1", "F-1", "G-1"), day, TZ
-    )
+    blocks, skipped = allocate_day(_ticks("A-1", "B-1", "C-1", "D-1", "E-1", "F-1", "G-1"), day, TZ)
     assert skipped == []
     durations = [int((b.end - b.start).total_seconds() // 3600) for b in blocks]
     assert durations == [2, 1, 1, 1, 1, 1, 1]
@@ -140,9 +138,7 @@ def test_allocate_day_unsorted_input_alphabetized_in_output() -> None:
 
 def test_allocate_day_n8_one_hour_each() -> None:
     day = date(2026, 4, 21)
-    blocks, skipped = allocate_day(
-        _ticks(*[f"K-{i}" for i in range(1, 9)]), day, TZ
-    )
+    blocks, skipped = allocate_day(_ticks(*[f"K-{i}" for i in range(1, 9)]), day, TZ)
     assert skipped == []
     assert all((b.end - b.start) == timedelta(hours=1) for b in blocks)
     assert blocks[-1].end.time().isoformat() == "17:00:00"
@@ -220,9 +216,9 @@ def test_allocate_total_hours_per_non_empty_day_is_8() -> None:
     result = allocate(date(2026, 4, 20), date(2026, 4, 22), set(), day_to_tickets, TZ)
     by_day: dict[date, float] = {}
     for b in result.blocks:
-        by_day[b.start.date()] = by_day.get(b.start.date(), 0.0) + (
-            b.end - b.start
-        ).total_seconds() / 3600
+        by_day[b.start.date()] = (
+            by_day.get(b.start.date(), 0.0) + (b.end - b.start).total_seconds() / 3600
+        )
     for d, hours in by_day.items():
         assert hours == 8, (d, hours)
 

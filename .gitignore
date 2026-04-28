@@ -11,6 +11,7 @@ dist/
 build/
 *.egg-info/
 .ruff_cache/
+.mypy_cache/
 .python-version
 .claude/settings.local.json
 .claude/settings.json

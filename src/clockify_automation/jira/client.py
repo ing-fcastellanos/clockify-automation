@@ -3,8 +3,8 @@ from __future__ import annotations
 import logging
 import random
 import time
-from collections.abc import Iterator
-from typing import Any
+from collections.abc import Callable, Iterator
+from typing import Any, cast
 
 import httpx
 
@@ -17,7 +17,9 @@ _BASE_BACKOFF_SECONDS = 0.5
 _MAX_BACKOFF_SECONDS = 30.0
 
 
-def make_jira_client(base_url: str, email: str, api_token: str, timeout: float = 30.0) -> httpx.Client:
+def make_jira_client(
+    base_url: str, email: str, api_token: str, timeout: float = 30.0
+) -> httpx.Client:
     return httpx.Client(
         base_url=base_url.rstrip("/"),
         auth=httpx.BasicAuth(email, api_token),
@@ -32,7 +34,7 @@ def _request_with_retry(
     path: str,
     *,
     params: dict[str, Any] | None = None,
-    sleep: callable = time.sleep,  # type: ignore[valid-type]
+    sleep: Callable[[float], None] = time.sleep,
 ) -> httpx.Response:
     backoff = _BASE_BACKOFF_SECONDS
     last_response: httpx.Response | None = None
@@ -87,9 +89,7 @@ def search_candidate_issues(
         }
         if next_token:
             params["nextPageToken"] = next_token
-        response = _request_with_retry(
-            client, "GET", "/rest/api/3/search/jql", params=params
-        )
+        response = _request_with_retry(client, "GET", "/rest/api/3/search/jql", params=params)
         response.raise_for_status()
         data = response.json()
         issues = data.get("issues", [])
@@ -109,8 +109,6 @@ def fetch_issue(
     """Fetch a single issue with its changelog expanded."""
     fields_csv = ",".join(fields) if fields else "summary,created,assignee,status"
     params = {"fields": fields_csv, "expand": "changelog"}
-    response = _request_with_retry(
-        client, "GET", f"/rest/api/3/issue/{key}", params=params
-    )
+    response = _request_with_retry(client, "GET", f"/rest/api/3/issue/{key}", params=params)
     response.raise_for_status()
-    return response.json()
+    return cast(dict[str, Any], response.json())
