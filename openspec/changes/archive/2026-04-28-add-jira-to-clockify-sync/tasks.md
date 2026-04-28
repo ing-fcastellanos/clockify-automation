@@ -56,9 +56,9 @@
 ## 7. Test consolidation and smoke run
 
 - [x] 7.1 Run the full pytest suite, fix any failures, confirm coverage of allocator and timeline above 90%.
-- [ ] 7.2 Smoke test end-to-end against a real-but-narrow date range (e.g., last 2 days) with `--dry-run` and real credentials, validate the printed plan matches expectations.
-- [ ] 7.3 Run end-to-end without `--dry-run` for the same range; verify entries appear in Clockify with correct times, descriptions, project, and tag.
-- [ ] 7.4 Re-run the same range without flags to confirm the default-mode abort behavior; then re-run with `--force` to confirm replacement.
+- [x] 7.2 Smoke test end-to-end against a real-but-narrow date range (e.g., last 2 days) with `--dry-run` and real credentials, validate the printed plan matches expectations.
+- [x] 7.3 Run end-to-end without `--dry-run` for the same range; verify entries appear in Clockify with correct times, descriptions, project, and tag.
+- [x] 7.4 Re-run the same range without flags to confirm the default-mode abort behavior; then re-run with `--force` to confirm replacement.
 
 ## 8. Documentation and CI prep
 
