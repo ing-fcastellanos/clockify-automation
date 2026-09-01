@@ -3,6 +3,7 @@ from clockify_automation.clockify.sink import (
     Mode,
     SinkReport,
     apply_blocks,
+    entry_local_date,
     format_description,
     to_utc_iso8601_z,
 )
@@ -12,6 +13,7 @@ __all__ = [
     "Mode",
     "SinkReport",
     "apply_blocks",
+    "entry_local_date",
     "format_description",
     "to_utc_iso8601_z",
 ]
