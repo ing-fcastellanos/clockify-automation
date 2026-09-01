@@ -77,8 +77,9 @@ clockify-sync --from 2026-04-20 --to 2026-04-26
 
 Flags (each has a short alias):
 
-- `--from`, `-F` — start date, ISO format (required).
-- `--to`, `-t` — end date, ISO format (required).
+- `--from`, `-F` — start date, ISO format (required unless `--automatic`).
+- `--to`, `-t` — end date, ISO format (required unless `--automatic`).
+- `--automatic`, `-a` — derive the range from Clockify instead of passing dates.
 - `--dry-run`, `-d` — print the plan, do not write anything to Clockify.
 - `--force`, `-f` — replace any prior automation-owned entries in the range.
 - `--skip`, `-s` — skip days that already have automation-owned entries.
@@ -89,6 +90,70 @@ Flags (each has a short alias):
 Before writing anything, the CLI prints the plan and asks for confirmation.
 Use `-y` to skip the prompt (e.g. in CI). `--dry-run` never prompts since it
 never writes.
+
+## Automatic mode
+
+```
+clockify-sync --automatic
+```
+
+Instead of asking you for a range, `--automatic` reads it from Clockify: it
+finds the last day you have **any** time entry and syncs from the day after
+that through today, inclusive.
+
+```
+  Aug 24  25  26  27  28  29  30  31 (today)
+  ────────────────────────────────────────────
+  entries ██  ██  ██  ──  ──  ──  ──   ──
+                       └───── synced ─────┘
+                  last day = Aug 26
+```
+
+Two rules make this safe to run unattended:
+
+- **Any entry counts as a covered day.** Project, tag, and description are
+  ignored — unlike conflict detection, which uses the strict ownership filter
+  below. A one-hour standup logged in an unrelated project marks that day as
+  covered, and the tool will not add its 8 hours on top of it. The bot only
+  moves forward over completely untouched days.
+- **The range never exceeds 20 days.** The search looks back 21 days, which
+  caps the derived range by construction. If you have no entries at all in that
+  window, the command aborts and asks you to pass `--from` and `--to` yourself,
+  rather than guessing at a large backfill.
+
+Automatic mode only ever moves the frontier forward. It does not backfill holes
+that sit *before* the last day with entries — use an explicit `--from`/`--to`
+range for those.
+
+Exit codes:
+
+| Situation | Exit |
+|---|---|
+| Entries created | 0 |
+| Clockify already current (last day is today or later) | 0 |
+| Derived range has no working days (weekend, holidays) | 0 |
+| No entries in the 21-day window — needs `--from` | 1 |
+| Confirmation declined | 1 |
+| Conflicting automation-owned entries found in range | 2 |
+
+`--automatic` is compatible with `--dry-run`, `--yes`, `--verbose`, and
+`--holidays`. It is rejected together with `--from`, `--to`, `--force`, and
+`--skip`: the range is derived precisely to avoid days that already have
+entries, so there should be nothing to force or skip. If a conflict does turn
+up anyway, the run aborts so you find out about it.
+
+### Scheduled runs
+
+Because it needs no arguments and stays quiet when there is nothing to do,
+automatic mode is what you want on a scheduler:
+
+```
+# Weekdays at 18:00
+0 18 * * 1-5  cd /path/to/project && clockify-sync --automatic --yes
+```
+
+Note that today is included even if the workday is not over — running at 10:00
+still writes the full 09:00–17:00 block for today.
 
 ## Idempotency
 
