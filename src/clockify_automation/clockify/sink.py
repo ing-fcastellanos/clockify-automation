@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import UTC, date, datetime
 from typing import Any, Literal
+from zoneinfo import ZoneInfo
 
 from clockify_automation.allocator import Block
 from clockify_automation.clockify.client import (
@@ -61,13 +62,12 @@ def block_to_payload(block: Block, project_id: str, tag_id: str) -> dict[str, An
     }
 
 
-def _entry_local_date(entry: dict[str, Any], tz_name: str) -> date | None:
+def entry_local_date(entry: dict[str, Any], tz_name: str) -> date | None:
+    """Local calendar day an entry belongs to, or None if it has no start."""
     interval = entry.get("timeInterval") or {}
     start = interval.get("start")
     if not start:
         return None
-    from zoneinfo import ZoneInfo
-
     parsed = datetime.fromisoformat(start.replace("Z", "+00:00"))
     return parsed.astimezone(ZoneInfo(tz_name)).date()
 
@@ -132,7 +132,7 @@ def apply_blocks(
 
         if mode == "skip":
             owned_days = {
-                d for entry in owned if (d := _entry_local_date(entry, settings.timezone_name))
+                d for entry in owned if (d := entry_local_date(entry, settings.timezone_name))
             }
             filtered_payloads = [
                 payload
