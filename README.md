@@ -1,7 +1,7 @@
 # jira-clockify-sync
 
-[![PyPI version](https://img.shields.io/pypi/v/jira-clockify-sync.svg)](https://pypi.org/project/jira-clockify-sync/)
-[![Python versions](https://img.shields.io/pypi/pyversions/jira-clockify-sync.svg)](https://pypi.org/project/jira-clockify-sync/)
+[![PyPI version](https://img.shields.io/pypi/v/jira-clockify-sync?logo=pypi&logoColor=white)](https://pypi.org/project/jira-clockify-sync/)
+[![Python versions](https://img.shields.io/pypi/pyversions/jira-clockify-sync?logo=python&logoColor=white)](https://pypi.org/project/jira-clockify-sync/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/ing-fcastellanos/clockify-automation/actions/workflows/ci.yml/badge.svg)](https://github.com/ing-fcastellanos/clockify-automation/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/ing-fcastellanos/clockify-automation/branch/main/graph/badge.svg)](https://codecov.io/gh/ing-fcastellanos/clockify-automation)
