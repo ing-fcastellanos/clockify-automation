@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from datetime import date
 from types import SimpleNamespace
 from typing import Any
@@ -17,6 +18,14 @@ from clockify_automation.sync import Plan
 TZ = ZoneInfo("America/Mexico_City")
 
 runner = CliRunner()
+
+_ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
+
+
+def _plain(output: str) -> str:
+    """Strip ANSI color codes Rich adds when the environment forces color
+    (e.g. GITHUB_ACTIONS=true), so assertions are robust to the environment."""
+    return _ANSI_RE.sub("", output)
 
 
 @pytest.fixture
@@ -79,26 +88,26 @@ def _empty_plan(from_date: date, to_date: date, mode: str) -> Plan:
 def test_automatic_rejects_explicit_dates(app: typer.Typer, extra: list[str]) -> None:
     result = runner.invoke(app, ["--automatic", *extra])
     assert result.exit_code != 0
-    assert "--automatic cannot be combined with --from or --to" in result.output
+    assert "--automatic cannot be combined with --from or --to" in _plain(result.output)
 
 
 @pytest.mark.parametrize("extra", ["--force", "--skip"])
 def test_automatic_rejects_force_and_skip(app: typer.Typer, extra: str) -> None:
     result = runner.invoke(app, ["--automatic", extra])
     assert result.exit_code != 0
-    assert "--automatic cannot be combined with --force or --skip" in result.output
+    assert "--automatic cannot be combined with --force or --skip" in _plain(result.output)
 
 
 def test_dates_required_without_automatic(app: typer.Typer) -> None:
     result = runner.invoke(app, [])
     assert result.exit_code != 0
-    assert "--automatic" in result.output
+    assert "--automatic" in _plain(result.output)
 
 
 def test_partial_range_without_automatic_is_rejected(app: typer.Typer) -> None:
     result = runner.invoke(app, ["--from", "2026-08-01"])
     assert result.exit_code != 0
-    assert "--from and --to are required" in result.output
+    assert "--from and --to are required" in _plain(result.output)
 
 
 def test_manual_range_still_works(app: typer.Typer, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -120,7 +129,7 @@ def test_manual_range_still_works(app: typer.Typer, monkeypatch: pytest.MonkeyPa
     )
     result = runner.invoke(app, ["--from", "2026-08-03", "--to", "2026-08-03", "--dry-run"])
     assert result.exit_code == 0
-    assert "2026-08-03" in result.output
+    assert "2026-08-03" in _plain(result.output)
 
 
 # ---------------------------------------------------------------------------
@@ -165,8 +174,8 @@ def test_automatic_derives_and_reports_range(
     assert result.exit_code == 0
     assert captured["range"] == (date(2026, 8, 28), date(2026, 8, 31))
     assert captured["mode"] == "dry_run"
-    assert "Last day with Clockify entries: 2026-08-27" in result.output
-    assert "2026-08-28" in result.output
+    assert "Last day with Clockify entries: 2026-08-27" in _plain(result.output)
+    assert "2026-08-28" in _plain(result.output)
 
 
 def test_automatic_uses_default_conflict_mode(
@@ -219,7 +228,7 @@ def test_automatic_up_to_date_exits_zero_without_planning(
     result = runner.invoke(app, ["--automatic"])
 
     assert result.exit_code == 0
-    assert "up to date" in result.output
+    assert "up to date" in _plain(result.output)
 
 
 def test_automatic_without_recent_entries_exits_one(
@@ -238,7 +247,7 @@ def test_automatic_without_recent_entries_exits_one(
     result = runner.invoke(app, ["--automatic"])
 
     assert result.exit_code == 1
-    assert "No Clockify entries found" in result.output
+    assert "No Clockify entries found" in _plain(result.output)
 
 
 def test_automatic_range_without_working_days_exits_zero(
@@ -265,4 +274,4 @@ def test_automatic_range_without_working_days_exits_zero(
     result = runner.invoke(app, ["--automatic", "--yes"])
 
     assert result.exit_code == 0
-    assert "Nothing to write" in result.output
+    assert "Nothing to write" in _plain(result.output)
