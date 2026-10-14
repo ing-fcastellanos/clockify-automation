@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-13
+
 ### Added
 
 - `--automatic` / `-a`: derive the sync range from Clockify instead of passing
@@ -40,5 +42,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Idempotent sync via project + tag + description matching for conflict detection.
 - Configuration via `.env` (see `.env.example`) using `pydantic-settings`.
 
-[Unreleased]: https://github.com/ing-fcastellanos/clockify-automation/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/ing-fcastellanos/clockify-automation/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/ing-fcastellanos/clockify-automation/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/ing-fcastellanos/clockify-automation/releases/tag/v0.1.0
